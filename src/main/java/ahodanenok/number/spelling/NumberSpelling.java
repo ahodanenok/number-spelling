@@ -1,49 +1,52 @@
 package ahodanenok.number.spelling;
 
-import java.io.*;
-import java.util.Properties;
+/**
+ * Генерирует словесное название числа на русском языке
+ * Например: 321 - > триста двадцать один
+ */
+public final class NumberSpelling {
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
-public class NumberSpelling {
-
-    private Properties names;
+    private final Spellings spellings;
 
     public NumberSpelling() {
-        names = new Properties();
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("names.properties"), UTF_8))) {
-            names.load(in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        spellings = new Spellings();
     }
 
     public String generate(int n) {
+        return generate(n, SpellingContext.DEFAULT);
+    }
+
+    public String generate(int n, SpellingContext context) {
         StringBuilder sb = new StringBuilder();
 
         int hundreds = (n / 100) * 100;
         if (hundreds != 0) {
-            sb.append(names.getProperty(hundreds + ""));
+            sb.append(defaultIfNull(spellings.get(hundreds, context), hundreds));
         }
 
         int tensWithOnes = n % 100;
-        if (tensWithOnes != 0 && names.containsKey(tensWithOnes + "")) {
+        String tensWithOnesSpelling;
+        if (tensWithOnes != 0 && (tensWithOnesSpelling = spellings.get(tensWithOnes, context)) != null) {
             if (sb.length() > 0) sb.append(' ');
-            sb.append(names.getProperty(tensWithOnes + ""));
+            sb.append(tensWithOnesSpelling);
         } else {
             int tens = (tensWithOnes / 10) * 10;
             if (tens != 0) {
                 if (sb.length() > 0) sb.append(' ');
-                sb.append(names.getProperty(tens + ""));
+                sb.append(defaultIfNull(spellings.get(tens, context), tens));
             }
 
             int ones = tensWithOnes % 10;
             if (ones != 0 || n == 0) {
                 if (sb.length() > 0) sb.append(' ');
-                sb.append(names.getProperty(ones + ""));
+                sb.append(defaultIfNull(spellings.get(ones, context), ones));
             }
         }
 
         return sb.toString();
+    }
+
+    private String defaultIfNull(String value, int n) {
+        return value != null ? value : String.valueOf(n);
     }
 }

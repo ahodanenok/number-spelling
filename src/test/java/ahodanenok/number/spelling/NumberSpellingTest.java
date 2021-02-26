@@ -31,7 +31,7 @@ public class NumberSpellingTest {
         Assertions.assertEquals("пятнадцать", spelling.generate(15));
         Assertions.assertEquals("шестнадцать", spelling.generate(16));
         Assertions.assertEquals("семнадцать", spelling.generate(17));
-        Assertions.assertEquals("восемьнадцать", spelling.generate(18));
+        Assertions.assertEquals("восемнадцать", spelling.generate(18));
         Assertions.assertEquals("девятнадцать", spelling.generate(19));
     }
 
