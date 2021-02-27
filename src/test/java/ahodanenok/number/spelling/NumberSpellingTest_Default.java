@@ -3,7 +3,7 @@ package ahodanenok.number.spelling;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class NumberSpellingTest {
+public class NumberSpellingTest_Default {
 
     private NumberSpelling spelling = new NumberSpelling();
 
