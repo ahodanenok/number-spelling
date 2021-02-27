@@ -5,8 +5,7 @@ package ahodanenok.number.spelling;
  */
 public final class SpellingContext {
 
-    public static final SpellingContext DEFAULT
-            = SpellingContext.builder().withCase(Case.NOMINATIVE).withCount(Count.SINGULAR).build();
+    public static final SpellingContext DEFAULT = SpellingContext.builder().build();
 
     public static Builder builder() {
         return new Builder();
@@ -42,10 +41,10 @@ public final class SpellingContext {
 
     public static class Builder {
 
-        private Case _case;
-        private Count count;
-        private Gender gender;
-        private Animacy animacy;
+        private Case _case = Case.NOMINATIVE;
+        private Count count = Count.SINGULAR;
+        private Gender gender = Gender.MASCULINE;
+        private Animacy animacy = Animacy.INANIMATE;
 
         private Builder() { }
 
