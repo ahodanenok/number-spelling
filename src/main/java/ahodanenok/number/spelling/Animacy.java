@@ -6,12 +6,12 @@ package ahodanenok.number.spelling;
 public enum Animacy implements Abbreviated {
 
     /**
-     * Одушевлен
+     * Одушевленный
      */
     ANIMATE("ani"),
 
     /**
-     * Неодушевлен
+     * Неодушевленный
      */
     INANIMATE("ina");
 
@@ -23,6 +23,6 @@ public enum Animacy implements Abbreviated {
 
     @Override
     public String getAbbrev() {
-        return null;
+        return abbrev;
     }
 }
