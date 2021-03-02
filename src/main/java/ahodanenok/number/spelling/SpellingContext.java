@@ -39,6 +39,18 @@ public final class SpellingContext {
         return animacy;
     }
 
+    public SpellingContext withCount(Count count) {
+        return new SpellingContext(_case, count, animacy, gender);
+    }
+
+    public SpellingContext withCase(Case _case) {
+        return new SpellingContext(_case, count, animacy, gender);
+    }
+
+    public SpellingContext withGender(Gender gender) {
+        return new SpellingContext(_case, count, animacy, gender);
+    }
+
     public static class Builder {
 
         private Case _case = Case.NOMINATIVE;
