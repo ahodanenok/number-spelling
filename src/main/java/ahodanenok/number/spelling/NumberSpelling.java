@@ -16,22 +16,24 @@ public final class NumberSpelling {
         spellings = new Spellings();
     }
 
-    public String generate(int n) {
+    public String generate(long n) {
         return generate(n, SpellingContext.DEFAULT);
     }
 
-    public String generate(int n, SpellingContext context) {
+    public String generate(long n, SpellingContext context) {
         if (n < 1000) {
-            return forThousand(n, context);
+            return forThousand((int) n, context);
         }
 
         List<String> parts = new ArrayList<>();
 
-        int r = n;
+        long remaining = n;
         int exp = 0;
-        while (r > 0) {
-            if (exp > 0) {
-                int preceding = r % 100;
+        while (remaining > 0) {
+            int thousand = (int) (remaining % 1000);
+
+            if (exp > 0 && thousand > 0) {
+                int preceding = (int) (remaining % 100);
                 int ending = preceding % 10;
 
                 SpellingContext localContext = null;
@@ -43,8 +45,17 @@ public final class NumberSpelling {
                 } else if (preceding != 12 && ending == 2
                         || preceding != 13 && ending == 3
                         || preceding != 14 && ending == 4) {
-                    // s -> pl
-                    if (context.getCount() != Count.PLURAL) {
+
+                    if (context.getCase() == Case.NOMINATIVE || context.getCase() == Case.ACCUSATIVE) {
+                        // acc, nom -> gen
+                        localContext = context.withCase(Case.GENITIVE);
+
+                        // s -> pl
+                        if (context.getCount() != Count.SINGULAR) {
+                            localContext = context.withCount(Count.SINGULAR);
+                        }
+                    } else if (context.getCount() != Count.PLURAL) {
+                        // s -> pl
                         localContext = context.withCount(Count.PLURAL);
                     }
                 } else {
@@ -52,6 +63,7 @@ public final class NumberSpelling {
                     if (context.getCount() != Count.PLURAL) {
                         localContext = context.withCount(Count.PLURAL);
                     }
+
                     // acc, nom -> gen
                     if (context.getCase() == Case.NOMINATIVE || context.getCase() == Case.ACCUSATIVE) {
                         localContext = localContext != null
@@ -68,8 +80,7 @@ public final class NumberSpelling {
                 parts.add(spelling != null ? spelling : String.valueOf((int) Math.pow(10, exp)));
             }
 
-            int a = r % 1000;
-            if (a != 0) {
+            if (thousand > 0) {
                 SpellingContext localContext;
                 // тут неявно подразумевается, что название для 1000 будет женского рода, т.е тысяча
                 if (exp == 3 && context.getGender() != Gender.FEMININE) {
@@ -78,16 +89,16 @@ public final class NumberSpelling {
                     localContext = context;
                 }
 
-                int ending = a % 100;
+                int ending = thousand % 100;
                 if (localContext.getCount() != Count.SINGULAR && ending != 11 && ending % 10 == 1) {
                     // pl -> s
                     localContext = localContext.withCount(Count.SINGULAR);
                 }
 
-                parts.add(forThousand(a, localContext));
+                parts.add(forThousand(thousand, localContext));
             }
 
-            r /= 1000;
+            remaining /= 1000;
             exp += 3;
         }
 
