@@ -22,6 +22,10 @@ final class Spellings {
         }
     }
 
+    public String forNegativeSign() {
+        return spellings.getProperty("minus");
+    }
+
     String forNumber(int n, SpellingContext context) {
         return get(String.valueOf(n), context);
     }

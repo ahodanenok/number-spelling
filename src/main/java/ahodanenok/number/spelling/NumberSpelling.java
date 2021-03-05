@@ -21,13 +21,13 @@ public final class NumberSpelling {
     }
 
     public String generate(long n, SpellingContext context) {
-        if (n < 1000) {
+        if (n == 0) {
             return forThousand((int) n, context);
         }
 
         List<String> parts = new ArrayList<>();
 
-        long remaining = n;
+        long remaining = (n < 0) ? -n : n;
         int exp = 0;
         while (remaining > 0) {
             int thousand = (int) (remaining % 1000);
@@ -38,10 +38,7 @@ public final class NumberSpelling {
 
                 SpellingContext localContext = null;
                 if (preceding != 11 && preceding % 10 == 1) {
-                    // pl -> s
-                    if (context.getCount() != Count.SINGULAR) {
-                        localContext = context.withCount(Count.SINGULAR);
-                    }
+                    // no-op
                 } else if (preceding != 12 && ending == 2
                         || preceding != 13 && ending == 3
                         || preceding != 14 && ending == 4) {
@@ -89,17 +86,15 @@ public final class NumberSpelling {
                     localContext = context;
                 }
 
-                int ending = thousand % 100;
-                if (localContext.getCount() != Count.SINGULAR && ending != 11 && ending % 10 == 1) {
-                    // pl -> s
-                    localContext = localContext.withCount(Count.SINGULAR);
-                }
-
                 parts.add(forThousand(thousand, localContext));
             }
 
             remaining /= 1000;
             exp += 3;
+        }
+
+        if (n < 0) {
+            parts.add(defaultIfNull(spellings.forNegativeSign(), "-"));
         }
 
         StringJoiner joiner = new StringJoiner(" ");
@@ -141,6 +136,10 @@ public final class NumberSpelling {
     }
 
     private String defaultIfNull(String value, int n) {
-        return value != null ? value : String.valueOf(n);
+        return defaultIfNull(value, String.valueOf(n));
+    }
+
+    private String defaultIfNull(String value, String defaultValue) {
+        return value != null ? value : defaultValue;
     }
 }
