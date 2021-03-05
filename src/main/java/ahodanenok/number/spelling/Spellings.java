@@ -9,16 +9,17 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 final class Spellings {
 
+    private static final String spellingsFilename = "spellings.properties";
+
     private final Properties spellings;
 
     Spellings() {
         spellings = new Properties();
         try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(getClass().getResourceAsStream("spellings.properties"), UTF_8))) {
+                new InputStreamReader(getClass().getResourceAsStream(spellingsFilename), UTF_8))) {
             spellings.load(in);
         } catch (IOException e) {
-            // todo: handle error
-            e.printStackTrace();
+            throw new IllegalStateException("Can't load spellings from '" + spellingsFilename + "'", e);
         }
     }
 
