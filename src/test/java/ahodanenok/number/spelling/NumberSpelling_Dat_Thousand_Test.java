@@ -10,7 +10,7 @@ public class NumberSpelling_Dat_Thousand_Test {
     private final SpellingContext context = SpellingContext.builder().withCase(Case.DATIVE).build();
     
     @Test
-    public void check_Dat_x000() {
+    public void check_Dat_x000_Singular() {
         assertEquals("одной тысяче", spelling.generate(1_000, context));
         assertEquals("двум тысячам", spelling.generate(2_000, context));
         assertEquals("трём тысячам", spelling.generate(3_000, context));
@@ -20,6 +20,20 @@ public class NumberSpelling_Dat_Thousand_Test {
         assertEquals("семи тысячам", spelling.generate(7_000, context));
         assertEquals("восьми тысячам", spelling.generate(8_000, context));
         assertEquals("девяти тысячам", spelling.generate(9_000, context));
+    }
+
+    @Test
+    public void check_Nom_x000_Plural() {
+        SpellingContext pluralContext = context.withCount(Count.PLURAL);
+        assertEquals("одним тысячам", spelling.generate(1_000, pluralContext));
+        assertEquals("двум тысячам", spelling.generate(2_000, pluralContext));
+        assertEquals("трём тысячам", spelling.generate(3_000, pluralContext));
+        assertEquals("четырём тысячам", spelling.generate(4_000, pluralContext));
+        assertEquals("пяти тысячам", spelling.generate(5_000, pluralContext));
+        assertEquals("шести тысячам", spelling.generate(6_000, pluralContext));
+        assertEquals("семи тысячам", spelling.generate(7_000, pluralContext));
+        assertEquals("восьми тысячам", spelling.generate(8_000, pluralContext));
+        assertEquals("девяти тысячам", spelling.generate(9_000, pluralContext));
     }
 
     @Test

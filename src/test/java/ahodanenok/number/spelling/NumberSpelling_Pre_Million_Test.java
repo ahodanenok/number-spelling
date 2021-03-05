@@ -10,7 +10,7 @@ public class NumberSpelling_Pre_Million_Test {
     private final SpellingContext context = SpellingContext.builder().withCase(Case.PREPOSITIONAL).build();
 
     @Test
-    public void check_x_000_000() {
+    public void check_x_000_000_Singular() {
         assertEquals("одном миллионе", spelling.generate(1_000_000, context));
         assertEquals("двух миллионах", spelling.generate(2_000_000, context));
         assertEquals("трёх миллионах", spelling.generate(3_000_000, context));
@@ -20,6 +20,20 @@ public class NumberSpelling_Pre_Million_Test {
         assertEquals("семи миллионах", spelling.generate(7_000_000, context));
         assertEquals("восьми миллионах", spelling.generate(8_000_000, context));
         assertEquals("девяти миллионах", spelling.generate(9_000_000, context));
+    }
+
+    @Test
+    public void check_x_000_000_Plural() {
+        SpellingContext pluralContext = context.withCount(Count.PLURAL);
+        assertEquals("одних миллионах", spelling.generate(1_000_000, pluralContext));
+        assertEquals("двух миллионах", spelling.generate(2_000_000, pluralContext));
+        assertEquals("трёх миллионах", spelling.generate(3_000_000, pluralContext));
+        assertEquals("четырёх миллионах", spelling.generate(4_000_000, pluralContext));
+        assertEquals("пяти миллионах", spelling.generate(5_000_000, pluralContext));
+        assertEquals("шести миллионах", spelling.generate(6_000_000, pluralContext));
+        assertEquals("семи миллионах", spelling.generate(7_000_000, pluralContext));
+        assertEquals("восьми миллионах", spelling.generate(8_000_000, pluralContext));
+        assertEquals("девяти миллионах", spelling.generate(9_000_000, pluralContext));
     }
 
     @Test

@@ -43,15 +43,19 @@ public final class NumberSpelling {
                         || preceding != 13 && ending == 3
                         || preceding != 14 && ending == 4) {
 
-                    if (context.getCase() == Case.NOMINATIVE || context.getCase() == Case.ACCUSATIVE) {
+                    // миллионы, триллионы и склоняются во множественном числе
+                    // кроме им. и вин. падежей - в них оконачание родительного падежа единственного числа
+                    if (exp > 3 && (context.getCase() == Case.NOMINATIVE || context.getCase() == Case.ACCUSATIVE)) {
                         // acc, nom -> gen
                         localContext = context.withCase(Case.GENITIVE);
 
                         // s -> pl
-                        if (context.getCount() != Count.SINGULAR) {
-                            localContext = context.withCount(Count.SINGULAR);
+                        if (localContext.getCount() != Count.SINGULAR) {
+                            localContext = localContext.withCount(Count.SINGULAR);
                         }
-                    } else if (context.getCount() != Count.PLURAL) {
+                    }
+                    // ...2000, ...3000, ...4000 склоняются всегда во множественном числе
+                    else if (context.getCount() != Count.PLURAL) {
                         // s -> pl
                         localContext = context.withCount(Count.PLURAL);
                     }

@@ -10,7 +10,7 @@ public class NumberSpelling_Acc_Million_Test {
     private final SpellingContext context = SpellingContext.builder().withCase(Case.ACCUSATIVE).build();
 
     @Test
-    public void check_x_000_000() {
+    public void check_x_000_000_Singular() {
         assertEquals("один миллион", spelling.generate(1_000_000, context));
         assertEquals("два миллиона", spelling.generate(2_000_000, context));
         assertEquals("три миллиона", spelling.generate(3_000_000, context));
@@ -20,6 +20,20 @@ public class NumberSpelling_Acc_Million_Test {
         assertEquals("семь миллионов", spelling.generate(7_000_000, context));
         assertEquals("восемь миллионов", spelling.generate(8_000_000, context));
         assertEquals("девять миллионов", spelling.generate(9_000_000, context));
+    }
+
+    @Test
+    public void check_x_000_000_Plural() {
+        SpellingContext pluralContext = context.withCount(Count.PLURAL);
+        assertEquals("одни миллионы", spelling.generate(1_000_000, pluralContext));
+        assertEquals("два миллиона", spelling.generate(2_000_000, pluralContext));
+        assertEquals("три миллиона", spelling.generate(3_000_000, pluralContext));
+        assertEquals("четыре миллиона", spelling.generate(4_000_000, pluralContext));
+        assertEquals("пять миллионов", spelling.generate(5_000_000, pluralContext));
+        assertEquals("шесть миллионов", spelling.generate(6_000_000, pluralContext));
+        assertEquals("семь миллионов", spelling.generate(7_000_000, pluralContext));
+        assertEquals("восемь миллионов", spelling.generate(8_000_000, pluralContext));
+        assertEquals("девять миллионов", spelling.generate(9_000_000, pluralContext));
     }
 
     @Test

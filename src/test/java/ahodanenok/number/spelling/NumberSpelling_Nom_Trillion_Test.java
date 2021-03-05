@@ -10,7 +10,7 @@ public class NumberSpelling_Nom_Trillion_Test {
     private final SpellingContext context = SpellingContext.builder().build();
 
     @Test
-    public void check_x_000_000_000_000() {
+    public void check_x_000_000_000_000_Singular() {
         assertEquals("один триллион", spelling.generate(1_000_000_000_000L, context));
         assertEquals("два триллиона", spelling.generate(2_000_000_000_000L, context));
         assertEquals("три триллиона", spelling.generate(3_000_000_000_000L, context));
@@ -20,6 +20,20 @@ public class NumberSpelling_Nom_Trillion_Test {
         assertEquals("семь триллионов", spelling.generate(7_000_000_000_000L, context));
         assertEquals("восемь триллионов", spelling.generate(8_000_000_000_000L, context));
         assertEquals("девять триллионов", spelling.generate(9_000_000_000_000L, context));
+    }
+
+    @Test
+    public void check_x_000_000_000_000_Plural() {
+        SpellingContext pluralContext = context.withCount(Count.PLURAL);
+        assertEquals("одни триллионы", spelling.generate(1_000_000_000_000L, pluralContext));
+        assertEquals("два триллиона", spelling.generate(2_000_000_000_000L, pluralContext));
+        assertEquals("три триллиона", spelling.generate(3_000_000_000_000L, pluralContext));
+        assertEquals("четыре триллиона", spelling.generate(4_000_000_000_000L, pluralContext));
+        assertEquals("пять триллионов", spelling.generate(5_000_000_000_000L, pluralContext));
+        assertEquals("шесть триллионов", spelling.generate(6_000_000_000_000L, pluralContext));
+        assertEquals("семь триллионов", spelling.generate(7_000_000_000_000L, pluralContext));
+        assertEquals("восемь триллионов", spelling.generate(8_000_000_000_000L, pluralContext));
+        assertEquals("девять триллионов", spelling.generate(9_000_000_000_000L, pluralContext));
     }
 
     @Test
